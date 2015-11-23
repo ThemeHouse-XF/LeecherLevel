@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="ThemeHouse_LeecherLevel" title="[⌂] Leecher Level" version_string="1.0.0" version_id="1447094555" url="http://xf.themehouse.io" install_callback_class="ThemeHouse_Install" install_callback_method="install" uninstall_callback_class="ThemeHouse_Install" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="th_tools_rebuild_leecherlevel"><![CDATA[<xen:form action="{xen:adminlink 'tools/trigger-deferred'}">
+	<h2 class="subHeading">{xen:phrase th_recalculate_leecher_levels_leecherlevel}</h2>
+	<xen:spinboxunit name="options[batch]" value="100" step="50" min="1" label="{xen:phrase items_to_process_per_page}:" />
+
+	<xen:submitunit save="{xen:phrase rebuild_now}" />
+	<input type="hidden" name="cache" value="ThemeHouse_LeecherLevel_Deferred_Calculate" />
+</xen:form>]]></template>
+  </admin_templates>
+  <admin_template_modifications>
+    <modification template="tools_rebuild" modification_key="th_tools_rebuild_leecherlevel" description="" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:form action="{xen:adminlink 'tools/clean-up-permissions'}">]]></find>
+      <replace><![CDATA[<xen:include template="th_tools_rebuild_leecherlevel" />
+$0]]></replace>
+    </modification>
+  </admin_template_modifications>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_Leecherlevel_Listener_LoadClass" callback_method="loadClassDataWriter" active="0" hint="XenForo_DataWriter_User" description="XenForo_DataWriter_User" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_Leecherlevel_Listener_LoadClass" callback_method="loadClassModel" active="0" hint="XenForo_Model_User" description="XenForo_Model_User" compatibility_switch="1"/>
+  </code_event_listeners>
+  <cron>
+    <entry entry_id="th_leecherLevel" cron_class="ThemeHouse_LeecherLevel_CronEntry_Calculate" cron_method="run" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["-1"],"minutes":["0"]}]]></entry>
+  </cron>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="th_leecherLevel" display_order="2000" debug_only="0"/>
+    <option option_id="th_leecherLevel_cronUsersToCheck" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>100</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_leecherLevel" display_order="10"/>
+    </option>
+    <option option_id="th_leecherLevel_formula" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value/>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_leecherLevel" display_order="5"/>
+    </option>
+    <option option_id="th_leecherLevel_maxLeecher" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>-10</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_leecherLevel" display_order="105"/>
+    </option>
+    <option option_id="th_leecherLevel_minContributor" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>10</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_leecherLevel" display_order="110"/>
+    </option>
+    <option option_id="th_leecherLevel_minPostsToCalculate" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>20</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_leecherLevel" display_order="15"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="cron_entry_th_leecherLevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Update leecher levels]]></phrase>
+    <phrase title="option_group_th_leecherLevel" version_id="1443017337" version_string="1.0.0"><![CDATA[[⌂] Leecher Level]]></phrase>
+    <phrase title="option_group_th_leecherLevel_description" version_id="1443017337" version_string="1.0.0"><![CDATA[Options for the [⌂] Leecher Level add-on.]]></phrase>
+    <phrase title="option_th_leecherLevel_cronUsersToCheck" version_id="1443017337" version_string="1.0.0"><![CDATA[Number of users to calculate each time the cron runs.]]></phrase>
+    <phrase title="option_th_leecherLevel_cronUsersToCheck_explain" version_id="1443017337" version_string="1.0.0"><![CDATA[The number of users to calculate the leecher level for each time the cron runs.]]></phrase>
+    <phrase title="option_th_leecherLevel_formula" version_id="1443017337" version_string="1.0.0"><![CDATA[Leecher level formula]]></phrase>
+    <phrase title="option_th_leecherLevel_formula_explain" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="option_th_leecherLevel_maxLeecher" version_id="1443017337" version_string="1.0.0"><![CDATA[Maximum leecher level for 'Leecher']]></phrase>
+    <phrase title="option_th_leecherLevel_maxLeecher_explain" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="option_th_leecherLevel_minContributor" version_id="1443017337" version_string="1.0.0"><![CDATA[Minimum leecher level for 'Contributor']]></phrase>
+    <phrase title="option_th_leecherLevel_minContributor_explain" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="option_th_leecherLevel_minPostsToCalculate" version_id="1443017337" version_string="1.0.0"><![CDATA[Minimum number of posts to calculate leecher level]]></phrase>
+    <phrase title="option_th_leecherLevel_minPostsToCalculate_explain" version_id="1443017337" version_string="1.0.0"><![CDATA[The minimum number of posts a user can have before leecher level will be calculated.]]></phrase>
+    <phrase title="style_property_group_th_leecherLevel_master" version_id="1443017337" version_string="1.0.0"><![CDATA[[⌂] Leecher Level]]></phrase>
+    <phrase title="style_property_group_th_leecherLevel_master_desc" version_id="1443017337" version_string="1.0.0"><![CDATA[Style properties for the [⌂] Leecher Level add-on]]></phrase>
+    <phrase title="style_property_th_leecherLevel_contributorColor_description_master" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_th_leecherLevel_contributorColor_master" version_id="1443017337" version_string="1.0.0"><![CDATA[Color to use for contributors]]></phrase>
+    <phrase title="style_property_th_leecherLevel_leecherColor_description_master" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_th_leecherLevel_leecherColor_master" version_id="1443017337" version_string="1.0.0"><![CDATA[Color to use for leechers]]></phrase>
+    <phrase title="style_property_th_leecherLevel_neutralColor_description_master" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_th_leecherLevel_neutralColor_master" version_id="1443017337" version_string="1.0.0"><![CDATA[Color to use for neutral]]></phrase>
+    <phrase title="style_property_th_leecherLevel_undeterminedColor_description_master" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_th_leecherLevel_undeterminedColor_master" version_id="1443017337" version_string="1.0.0"><![CDATA[Color to use for undetermined]]></phrase>
+    <phrase title="style_property_th_messageShowLeecherLevel_leecherlevel_description_master" version_id="1443017337" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_th_messageShowLeecherLevel_leecherlevel_master" version_id="1443017337" version_string="1.0.0"><![CDATA[Show leecher level]]></phrase>
+    <phrase title="th_contributor_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Contributor]]></phrase>
+    <phrase title="th_leecher_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Leecher]]></phrase>
+    <phrase title="th_leecher_level_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Leecher Level]]></phrase>
+    <phrase title="th_neutral_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Neutral]]></phrase>
+    <phrase title="th_recalculate_leecher_levels_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Recalculate Leecher Levels]]></phrase>
+    <phrase title="th_undetermined_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[Undetermined]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties>
+    <property property_name="th_leecherLevel_contributorColor" property_type="scalar" definition="1" group_name="th_leecherLevel" title="Color to use for contributors" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="5" sub_group=""><![CDATA[#2ecc71]]></property>
+    <property property_name="th_leecherLevel_neutralColor" property_type="scalar" definition="1" group_name="th_leecherLevel" title="Color to use for neutral" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="10" sub_group=""><![CDATA[]]></property>
+    <property property_name="th_leecherLevel_leecherColor" property_type="scalar" definition="1" group_name="th_leecherLevel" title="Color to use for leechers" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="20" sub_group=""><![CDATA[#c0392b]]></property>
+    <property property_name="th_leecherLevel_undeterminedColor" property_type="scalar" definition="1" group_name="th_leecherLevel" title="Color to use for undetermined" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="15" sub_group=""><![CDATA[]]></property>
+    <property property_name="th_messageShowLeecherLevel_leecherlevel" property_type="scalar" definition="1" group_name="message" title="Show leecher level" description="" css_components="" scalar_type="boolean" scalar_parameters="" display_order="100" sub_group="User Info"><![CDATA[1]]></property>
+    <group group_name="th_leecherLevel" display_order="9000">
+      <title>[⌂] Leecher Level</title>
+      <description>Style properties for the [⌂] Leecher Level add-on</description>
+    </group>
+  </style_properties>
+  <templates>
+    <template title="th_leecherlevel.css" version_id="1443017337" version_string="1.0.0"><![CDATA[.leecherLevel.undetermined {
+	<xen:if is="{xen:property th_leecherLevel_undeterminedColor}">
+		color: {xen:property th_leecherLevel_undeterminedColor};
+	</xen:if>
+}
+.leecherLevel.contributor {
+	<xen:if is="{xen:property th_leecherLevel_contributorColor}">
+		color: {xen:property th_leecherLevel_contributorColor};
+	</xen:if>
+}
+.leecherLevel.leecher {
+	<xen:if is="{xen:property th_leecherLevel_leecherColor}">
+		color: {xen:property th_leecherLevel_leecherColor};
+	</xen:if>
+}
+.leecherLevel.neutral {
+	<xen:if is="{xen:property th_leecherLevel_neutralColor}">
+		color: {xen:property th_leecherLevel_neutralColor};
+	</xen:if>
+}]]></template>
+    <template title="th_member_view_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[<xen:if is="{xen:property th_messageShowLeecherLevel_leecherlevel}">
+	<xen:require css="th_leecherlevel.css" />
+	
+	<dl>
+		<dt>{xen:phrase th_leecher_level_leecherlevel}:</dt>
+		<dd>
+			<xen:if is="{$user.leecher_level_unknown}">
+				<span class="leecherLevel undetermined">{xen:phrase th_undetermined_leecherlevel}</span>
+			<xen:else />
+				<xen:if is="{$user.leecher_level} > {$xenOptions.th_leecherLevel_minContributor}">
+					<span class="leecherLevel contributor">{xen:number $user.leecher_level} ({xen:phrase th_contributor_leecherlevel})</span>
+				<xen:elseif is="{$user.leecher_level} < {$xenOptions.th_leecherLevel_maxLeecher}" />
+					<span class="leecherLevel leecher">{xen:number $user.leecher_level} ({xen:phrase th_leecher_leecherlevel})</span>
+				<xen:else />
+					<span class="leecherLevel neutral">{xen:number $user.leecher_level} ({xen:phrase th_neutral_leecherlevel})</span>
+				</xen:if>
+			</xen:if>
+		</dd>
+	</dl>
+</xen:if>]]></template>
+    <template title="th_message_user_info_leecherlevel" version_id="1443017337" version_string="1.0.0"><![CDATA[<xen:if is="{xen:property th_messageShowLeecherLevel_leecherlevel}">
+	<xen:require css="th_leecherlevel.css" />
+	
+	<dl class="pairsJustified">
+		<dt>{xen:phrase th_leecher_level_leecherlevel}:</dt>
+		<dd>
+			<xen:if is="{$user.leecher_level_unknown}">
+				<span class="leecherLevel undetermined">{xen:phrase th_undetermined_leecherlevel}</span>
+			<xen:else />
+				<xen:if is="{$user.leecher_level} > {$xenOptions.th_leecherLevel_minContributor}">
+					<span class="leecherLevel contributor">{xen:number $user.leecher_level} {xen:phrase th_contributor_leecherlevel}</span>
+				<xen:elseif is="{$user.leecher_level} < {$xenOptions.th_leecherLevel_maxLeecher}" />
+					<span class="leecherLevel leecher">{xen:number $user.leecher_level} {xen:phrase th_leecher_leecherlevel}</span>
+				<xen:else />
+					<span class="leecherLevel neutral">{xen:number $user.leecher_level} {xen:phrase th_neutral_leecherlevel}</span>
+				</xen:if>
+			</xen:if>
+		</dd>
+	</dl>
+</xen:if>]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="footer" modification_key="th_copyrightNotice_leecherLevel" description="Copyright notice for [⌂] Leecher Level" execution_order="1" enabled="1" action="callback">
+      <find><![CDATA[/{xen:phrase (?:xenforo|extra)_copyright}/]]></find>
+      <replace><![CDATA[ThemeHouse_Listener_InitDependencies::copyrightNotice]]></replace>
+    </modification>
+    <modification template="member_view" modification_key="th_leecherLevel_member_view" description="" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if is="{$canViewWarnings}">]]></find>
+      <replace><![CDATA[<xen:include template="th_member_view_leecherlevel" />
+$0]]></replace>
+    </modification>
+    <modification template="message_user_info" modification_key="th_leecherLevel_message_user_info" description="Adds additional information to postbit" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if is="{xen:property messageShowCustomFields} AND {$user.customFields}">]]></find>
+      <replace><![CDATA[<xen:include template="th_message_user_info_leecherlevel" />
+$0]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
